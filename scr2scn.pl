@@ -133,12 +133,9 @@ if ($ext eq ".scr") {
   # in them, and stick 0 in the first two words.
   seek (DEST, 0, 0);
 
-  # prepare our dummy blank screen.
+  # prepare our two bytes of 0s for blank screens.
   my $blankScreen = '';
   $array[0] = $array[1] = 0;
-  for ($i = 2; $i < 1024 ; $i++) {
-    $array[$i] = 0x20;
-  }
   $blankScreen = pack ("C*", @array);
 
   $i = 0;
@@ -156,8 +153,14 @@ if ($ext eq ".scr") {
     if (length ($buf) == 0) {
       # print ("$i: Non-priniting screen.\n") if ($verbose);
 
+      # seek back one screen....
       seek (DEST, -1024, 1);
+
+      # write the two 0s already prepared....
       print DEST $blankScreen;
+
+      # seek forward to the next screen....
+      seek (DEST, +1022, 1);
 
       printf ('%4d', $i) if ($verbose);
     } else {
