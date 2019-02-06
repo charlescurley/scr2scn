@@ -1,0 +1,33 @@
+scr2scn
+
+Translate back and forth between Forth screens files (*.scr) and text files with Forth source code in them (*.scn).
+
+This project came from a desire to use a modern version control system such as git to archive Forth screen files.
+
+Forth is an extremely versatile computer environment. Among other things, when running on raw hardware with no intervening operating system, Forth is its own operating system. It can directly access bulk storage (floppy disks, hard drives, even some tape drives) for its persistent storage. It reads and writes enough sectors (called blocks) to make up one kilobyte of storage, called a screen. Forths running on top of another operating may emulate the raw access by reading blocks from a file.
+
+Human readable source code is displayed one screen at a time, in sixteen lines of 64 characters each. There are no line feeds or other non-printing characters, and none used as line delimiters. What you see is 1024 characters, many of them spaces. If you see line numbers, they are an artifact of the listing program or editor.
+
+Screens may also contain binary data, such as overlays, databases, or the output of a target compiler. Binary data can have most unwelcome side effects when sent to many displays. So real-Forth has established the convention that screens with binary have 0 in the first two words of each screen. The kernel versions of  INDEX  and  LIST  will cheerfully spew garbage all over the screen, but utility re-definitions respect the flag.
+
+We make no effort to preserve binary data. First, many version control systems throw hissy fits due to binary data. Second, it will probably be different on a new machine anyway, so the user will have to regenerate it anyway. Third, files without it compress better.
+
+To covert from a screen file to a text file, we do the following:
+
+If a screen has 0 in the first two bytes, output 16 system dependent line delimiters ("\n" in C) and go on to the next screen. Note that we make no effort to preserve the binary data. Binary data is problematic for some version control systems.
+
+Otherwise, for each 64 characters, drop trailing spaces, output the results, and add a system dependent line delimiter. There will be 16 such lines per screen.
+
+This provides a version control system friendly text file. The line delimiters can be translated by the version control system, or by Unix utilities such as dos2unix and dd.
+
+Going the other way requires two passes. First, fill a buffer with 64 spaces, then read each line in to the buffer, then writing out 64 characters from the buffer to the output file. The second pass consists of detecting screens filled entirely with spaces, and replacing those with a screen filled with spaces, except for the first two bytes, which have 0 in them.
+
+The program takes an input file, with an extension of .scr or .scn. It creates the output file with the same base name and the other extension. It then processes the input file, using the process indicated by the input extension. For example,
+
+scr2scn foo.scr
+
+will produce the text file foo.scn from the forth screens in foo.scr. To go the other way,
+
+scr2scn foo.scn
+
+We make no effort at check sums or compression. Unix has excellent tools for those purposes.
