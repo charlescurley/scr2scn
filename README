@@ -20,7 +20,7 @@ Otherwise, for each 64 characters, drop trailing spaces, output the results, and
 
 This provides a version control system friendly text file. The line delimiters can be translated by the version control system, or by Unix utilities such as dos2unix and dd.
 
-Going the other way requires two passes. First, fill a buffer with 64 spaces, then read each line in to the buffer, then writing out 64 characters from the buffer to the output file. The second pass consists of detecting screens filled entirely with spaces, and replacing those with a screen filled with spaces, except for the first two bytes, which have 0 in them.
+Going the other way requires two passes. First, fill a buffer with 64 spaces, then read each line in to the buffer, then writing out 64 characters from the buffer to the output file. The second pass consists of detecting screens filled entirely with spaces, and replacing the first two bytes with 0s.
 
 The program takes an input file, with an extension of .scr or .scn. It creates the output file with the same base name and the other extension. It then processes the input file, using the process indicated by the input extension. For example,
 
