@@ -31,3 +31,5 @@ will produce the text file foo.scn from the forth screens in foo.scr. To go the 
 scr2scn foo.scn
 
 We make no effort at check sums or compression. Unix has excellent tools for those purposes.
+
+Another project is https://github.com/programandala-net/fsb2. I have not looked closely at it, so good luck.
