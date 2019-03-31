@@ -4,19 +4,19 @@ Translate back and forth between Forth screens files (*.scr) and text files with
 
 This project came from a desire to use a modern version control system such as git to archive Forth screen files.
 
-Forth is an extremely versatile computer environment. Among other things, when running on raw hardware with no intervening operating system, Forth is its own operating system. It can directly access bulk storage (floppy disks, hard drives, even some tape drives) for its persistent storage. It reads and writes enough sectors (called blocks) to make up one kilobyte of storage, called a screen. Forths running on top of another operating may emulate the raw access by reading blocks from a file.
+Forth is an extremely versatile computer environment. Among other things, when running on raw hardware with no intervening operating system, Forth is its own operating system. It can directly access bulk storage (floppy disks, hard drives, even some tape drives) for its persistent storage. It reads and writes enough sectors (called blocks) to make up one kilobyte of storage, called a screen, at a time. Forths running on top of another operating may emulate the raw access by reading blocks from a file.
 
 Human readable source code is displayed one screen at a time, in sixteen lines of 64 characters each. There are no line feeds or other non-printing characters, and none used as line delimiters. What you see is 1024 characters, many of them spaces. If you see line numbers, they are an artifact of the listing program or editor.
 
-Screens may also contain binary data, such as overlays, databases, or the output of a target compiler. Binary data can have most unwelcome side effects when sent to many displays. So real-Forth has established the convention that screens with binary have 0 in the first two words of each screen. The kernel versions of  INDEX  and  LIST  will cheerfully spew garbage all over the screen, but utility re-definitions respect the flag.
+Screens may also contain binary data, such as overlays, databases, or the output of a target compiler. Binary data can have most unwelcome side effects when sent to many displays. So real-Forth has established the convention that screens with binary have 0 in the first two bytes of each screen. The kernel versions of  INDEX  and  LIST  will cheerfully spew garbage all over the screen, but utility re-definitions respect the flag.
 
-We make no effort to preserve binary data. First, many version control systems throw hissy fits due to binary data. Second, it will probably be different on a new machine anyway, so the user will have to regenerate it anyway. Third, files without it compress better.
+This program makes no effort to preserve binary data. First, many version control systems throw hissy fits due to binary data. Second, it will probably be different on a new machine anyway, so the user will have to regenerate it anyway. Third, files without it compress better.
 
-To covert from a screen file to a text file, we do the following:
+To convert from a screen file to a text file, we do the following:
 
-If a screen has 0 in the first two bytes, output 16 system dependent line delimiters ("\n" in C) and go on to the next screen. Note that we make no effort to preserve the binary data. Binary data is problematic for some version control systems.
+If a screen has 0 in the first two bytes, output 16 system dependent line delimiters ("\n" in C) and go on to the next screen. Again, we make no effort to preserve the binary data.
 
-Otherwise, for each 64 characters, drop trailing spaces, output the results, and add a system dependent line delimiter. There will be 16 such lines per screen.
+Otherwise, for each 64 characters, drop trailing spaces, output the results, and add a system dependent line delimiter. Consistent with most Forth systems, all characters are ASCII. There will be 16 such lines per screen.
 
 This provides a version control system friendly text file. The line delimiters can be translated by the version control system, or by Unix utilities such as dos2unix and dd.
 
