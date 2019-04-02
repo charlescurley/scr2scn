@@ -32,4 +32,6 @@ scr2scn foo.scn
 
 We make no effort at check sums or compression. Unix has excellent tools for those purposes.
 
+We also make no effort to wrap lines that are more than 64 characters long. Again, Unix already has excellent tools for this.
+
 Another project is https://github.com/programandala-net/fsb2. I have not looked closely at it, so good luck.
