@@ -115,7 +115,7 @@ if ($ext eq ".scr") {
   }
 
 } else {
-  # test file to screens file.
+  # File to screens file.
   my $line;
 
   # 64 blanks, for padding out each line.
@@ -126,7 +126,16 @@ if ($ext eq ".scr") {
     my $size = length ($line);
     print DEST $line;
 
-    print DEST substr ($blanks, 0, 64-$size)
+    print DEST substr ($blanks, 0, 64-$size);
+
+    $i++;
+  }
+
+  print ("$i lines shipped so far.\n") if ($verbose);
+  while ($i%16 != 0) {
+    print ("$i\n") if ($verbose);
+    print DEST $blanks;
+    $i++;
   }
 
   # OK, we've made our file. Now find screens with nothing but blanks
@@ -169,7 +178,6 @@ if ($ext eq ".scr") {
 
     $i++;
   }
-  
 }
 
 close (SRC)  or die ("Can't close source file $srcFile.\n");
