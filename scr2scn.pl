@@ -133,7 +133,7 @@ if ($ext eq ".scr") {
 
   print ("$i lines shipped so far.\n") if ($verbose);
   while ($i%16 != 0) {
-    print ("$i\n") if ($verbose);
+    print ("Shipping new line $i\n") if ($verbose);
     print DEST $blanks;
     $i++;
   }
