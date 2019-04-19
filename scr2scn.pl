@@ -30,7 +30,7 @@ sub help () {
   print qq~
 Usage:
    $script [OPTIONS] sourceFile
-   Valid extensions are .scr and .scn
+   Valid extensions are .scr and .scn, upper or lower case
 
 Options:
    --help           Show this screen
@@ -62,9 +62,9 @@ my ($base, $dir, $ext) = fileparse ($srcFile, qr/\.[^.]*/);
 
 my $destFile = ${dir} . ${base};
 
-if ($ext eq '.scr') {
+if (lc($ext) eq '.scr') {
   $destFile .= '.scn';
-} elsif ($ext eq '.scn') {
+} elsif (lc($ext) eq '.scn') {
   $destFile .= '.scr';
 } else {
   help ();
