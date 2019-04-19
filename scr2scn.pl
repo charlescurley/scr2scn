@@ -46,14 +46,14 @@ GetOptions("help"      => \$iNeedHelp,
 
 $srcFile = $ARGV[0];
 
-if ($srcFile eq "") {
-  print "ERROR: The source file is missing!\n";
-  help ();
+if ($iNeedHelp) {
+  help;
   exit;
 }
 
-if ($iNeedHelp) {
-  help;
+if ($srcFile eq "") {
+  print "ERROR: The source file is missing!\n";
+  help ();
   exit;
 }
 
